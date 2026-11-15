@@ -65,6 +65,27 @@ flowchart LR
 
 ### Vision Transformer
 
+<p align="center">
+  <a href="assets/model-architecture.png">
+    <img src="assets/model-architecture.png" alt="中国兰花分类 Vision Transformer 模型结构图" width="100%" />
+  </a>
+</p>
+
+<p align="center"><sub>ViT 总体结构：图像经过 Patch Embedding、位置编码和 6 层 Encoder Block，最终由 CLS Token 完成类别预测（点击图片查看大图）。</sub></p>
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/patch-embedding.png" alt="ViT Patch 划分示意图" width="100%" /><br />
+      <sub>512×512 输入图像划分为 32×32 个 16×16 Patch</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/transformer-block.png" alt="Transformer Encoder Block 结构图" width="70%" /><br />
+      <sub>Transformer Encoder Block</sub>
+    </td>
+  </tr>
+</table>
+
 | 配置 | 数值 |
 | --- | --- |
 | 输入尺寸 | `512 × 512` |
@@ -76,7 +97,7 @@ flowchart LR
 | 分类类别 | `1275`（以当前 `label2id.json` 为准） |
 | LoRA | `r=16`，`alpha=32`，`dropout=0.05` |
 
-ViT 的详细结构见 [`模型结构图.pdf`](模型结构图.pdf)，NanoGPT 结构见 [`nanogpt.pdf`](nanogpt.pdf)。
+高清矢量版本见 [`模型结构图.pdf`](模型结构图.pdf)，NanoGPT 结构见 [`nanogpt.pdf`](nanogpt.pdf)。
 
 ### NanoGPT
 
@@ -162,6 +183,7 @@ python lora/train.py
 ├── dataset.py                # Orchid2024 Parquet 数据读取
 ├── dataset_infos.json        # 数据集字段与切分信息
 ├── requirements.txt          # Python 依赖
+├── assets/                   # README 使用的模型结构图
 ├── templates/                # Web 上传页与结果页
 ├── lora/                     # 训练、LoRA 与批量推理脚本
 ├── lora_weights/             # LoRA Adapter 与标签映射
