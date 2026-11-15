@@ -97,6 +97,30 @@ flowchart LR
 | 分类类别 | `1275`（以当前 `label2id.json` 为准） |
 | LoRA | `r=16`，`alpha=32`，`dropout=0.05` |
 
+#### 参数量计算
+
+当前 1,275 类配置下，ViT 基础模型共有 **8,743,419（约 8.74M）** 个参数：
+
+| 模块 | 计算方法 | 参数量 |
+| --- | --- | ---: |
+| Patch Conv | `256×3×16×16 + 256` | 196,864 |
+| Patch Embedding | `256×256 + 256` | 65,792 |
+| CLS Token | `1×1×256` | 256 |
+| Position Embedding | `1025×256` | 262,400 |
+| Transformer Encoder ×6 | `1,315,072×6` | 7,890,432 |
+| Classification Head | `256×1275 + 1275` | 327,675 |
+| **合计** |  | **8,743,419** |
+
+LoRA 只作用于 `patch_emb` 和 `cls_linear`。对于一个 `Linear(in, out)` 层，LoRA 新增参数量为 `r×(in+out)`，因此：
+
+```text
+Patch Embedding: 16 × (256 + 256)  =  8,192
+Classification:  16 × (256 + 1275) = 24,496
+LoRA Total:                           32,688
+```
+
+加载 LoRA 后模型共有 **8,776,107** 个参数，其中仅 **32,688** 个 LoRA 参数需要训练，约占总参数量的 **0.37%**。
+
 高清矢量版本见 [`模型结构图.pdf`](模型结构图.pdf)，NanoGPT 结构见 [`nanogpt.pdf`](nanogpt.pdf)。
 
 ### NanoGPT
